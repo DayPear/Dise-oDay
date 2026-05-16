@@ -7,7 +7,6 @@ package gestionEvento;
 import dtos.CategoriaDTO;
 import dtos.EventoDTO;
 import excepciones.GestionEventoException;
-import excepciones.NegocioException;
 import java.util.List;
 
 /**

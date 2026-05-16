@@ -4,7 +4,6 @@
  */
 package objetosNegocio;
 
-import Entitys.Asiento;
 import adapters.AsientoAdapter;
 import daos.AsientoDAO;
 import dtos.AsientoDTO;

@@ -18,18 +18,10 @@ import java.util.List;
  * @author María Valdez - 262775
  */
 public interface IGestionUsuariosFachada {
-
-    // --- Metodos para asociar un usuario a la sesion 
-    //public UsuarioDTO vincularUsuario(UsuarioDTO usuario)throws GestionUsuarioException;
-    // --- Metodo para deslindar un usuario de una sesion ---
-    //public void desvincularUsuario()throws GestionUsuarioException;
-    // --- Método que regresa el usuario con la sesion activa --- 
     
     public boolean asociarUsuario(UsuarioDTO usuario) throws GestionUsuarioException;
     
     public UsuarioDTO obtenerUsuarioActivo() throws GestionUsuarioException ;
-
-    //public boolean restarCreditos(Integer cantidad, String idUsuario);
-
+    
     public List<ReservacionDTO> obtenerReservacionesUsuario(String idUsuario) throws GestionUsuarioException;
 }

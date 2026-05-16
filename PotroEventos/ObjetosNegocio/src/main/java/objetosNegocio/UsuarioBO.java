@@ -13,7 +13,6 @@ import dtos.RegistroUsuarioDTO;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import interfaces.IUsuarioDAO;
-import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *

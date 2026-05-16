@@ -2,7 +2,6 @@ package adapters;
 
 import Entitys.Boleto;
 import Entitys.ENUMS.EstadoBoleto;
-import Entitys.Usuario;
 import dtos.BoletoDTO;
 import dtos.ENUMS.EstadoBoletoDTO;
 

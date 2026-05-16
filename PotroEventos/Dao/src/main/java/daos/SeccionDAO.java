@@ -44,15 +44,4 @@ public class SeccionDAO implements ISeccionDAO {
         }
     }
 
-    @Override
-    public Seccion buscarPorId(String idSeccion) throws PersistenciaException {
-        try{
-            SeccionMongoEntidad seccion = coleccionSecciones
-                    .find(eq("_id", new ObjectId(idSeccion)))
-                    .first();
-            return SeccionPersistenciaAdapter.convertirADominio(seccion);
-        } catch(MongoException me){
-            throw new PersistenciaException("No fue posible obtener la sección.");
-        }
-    }
 }
