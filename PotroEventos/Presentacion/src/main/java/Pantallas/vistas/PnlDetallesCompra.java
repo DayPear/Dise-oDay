@@ -5,6 +5,7 @@
 package Pantallas.vistas;
 
 import Controlador.interfaz.ICoordinadorAplicacion;
+import dtos.ReservacionDTO;
 
 /**
  *
@@ -16,6 +17,7 @@ import Controlador.interfaz.ICoordinadorAplicacion;
 public class PnlDetallesCompra extends javax.swing.JPanel {
 
     private ICoordinadorAplicacion coordinador;
+    private ReservacionDTO reservacion;
 
     /**
      * Creates new form PnlDetallesCompra
@@ -235,6 +237,7 @@ public class PnlDetallesCompra extends javax.swing.JPanel {
 
     private void btnCambiarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarAsientoActionPerformed
         // TODO add your handling code here:
+        coordinador.mostrarCambioAsiento(reservacion);
     }//GEN-LAST:event_btnCambiarAsientoActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
