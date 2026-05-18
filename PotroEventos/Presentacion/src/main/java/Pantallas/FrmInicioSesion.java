@@ -23,10 +23,6 @@ public class FrmInicioSesion extends javax.swing.JFrame {
     
     private ICoordinadorAplicacion coordinador;
     
-    public FrmInicioSesion() {
-        initComponents();
-    }
-
     /**
      * Creates new form frmInicioSesion
      *

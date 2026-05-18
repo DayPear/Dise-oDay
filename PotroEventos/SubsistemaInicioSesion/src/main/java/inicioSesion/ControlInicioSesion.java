@@ -48,6 +48,9 @@ public class ControlInicioSesion {
         return true;
     }
 
+    /*
+    no se usa, denle cuello
+    */
     protected void registrarSesion(UsuarioDTO usuario) {
         this.usuario = usuario;
     }
@@ -56,6 +59,9 @@ public class ControlInicioSesion {
         this.usuario = null;
     }
 
+    /*
+    ni se usa, denle cuello x2
+    */
     protected UsuarioDTO obtenerUsuarioActual() {
         return usuario;
     }

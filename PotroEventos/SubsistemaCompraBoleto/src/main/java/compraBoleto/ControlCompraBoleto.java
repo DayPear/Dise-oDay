@@ -122,7 +122,6 @@ public class ControlCompraBoleto{
             )).collect(Collectors.toList());
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new CompraBoletoException("Error al cargar el catálogo de asientos: " + ex.getMessage());
         }
     }
@@ -141,10 +140,8 @@ public class ControlCompraBoleto{
             }
             List<SeccionDTO> secciones = evento.getUbicacion().getSecciones();
             List<AsientoEventoDTO> ocupacion = asientoEventoBO.consultarEstadosPorEvento(evento.getIdEvento());
-            System.out.println("asientos: " + ocupacion.size());
 
             Map<SeccionDTO, List<AsientoEventoDTO>> mapa = new HashMap<>();
-            int num = 0;
             for (SeccionDTO seccion : secciones) {
                 List<AsientoEventoDTO> asientosDeSeccion = ocupacion.stream()
                         .filter(ae -> ae.getAsiento() != null
@@ -152,14 +149,10 @@ public class ControlCompraBoleto{
                         && String.valueOf(ae.getAsiento().getSeccion().getIdSeccion()).equals(seccion.getIdSeccion()))
                         .collect(Collectors.toList());
                 mapa.put(seccion, asientosDeSeccion);
-                num++;
-                System.out.println("Sección: " + seccion.getNombre() + " - Asientos asignados al mapa: " + asientosDeSeccion.size());
             }
-            System.out.println("asientos: " + num);
             return mapa;
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new CompraBoletoException("Error al construir mapa de ocupación: " + e.getMessage());
         }
     }
