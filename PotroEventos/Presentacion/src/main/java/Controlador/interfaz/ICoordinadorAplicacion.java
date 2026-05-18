@@ -86,6 +86,11 @@ public interface ICoordinadorAplicacion {
     String generarQR(EventoDTO evento, AsientoEventoDTO asiento, String token);
 
     boolean validarCredenciales(UsuarioInstitucionalDTO credenciales);
+<<<<<<< Updated upstream
     
     boolean isUsuarioITSONRegistrado();
+=======
+
+    public void mostrarCambioAsiento(ReservacionDTO reservacion);
+>>>>>>> Stashed changes
 }

@@ -7,6 +7,7 @@ import Pantallas.FrmPlantillaSistema;
 import Pantallas.FrmRegistrarse;
 import Pantallas.FrmDetallesCompra;
 import Pantallas.FrmRegistroItson;
+import Pantallas.vistas.PnlCambioAsiento;
 import Pantallas.vistas.PnlConsultar;
 import Pantallas.vistas.PnlConsultarEvento;
 import Pantallas.vistas.PnlConsultarMenu;
@@ -187,6 +188,16 @@ public class CoordinadorAplicacion implements ICoordinadorAplicacion {
             frmDetalles.setReservacion(reservacion);
         }
         frmDetalles.setVisible(true);
+    }
+    
+    @Override
+    public void mostrarCambioAsiento(ReservacionDTO reservacion){
+        ocultarTodo();
+        if(frmPlantilla == null){
+            frmPlantilla = new FrmPlantillaSistema(this);
+        }
+        frmPlantilla.setContenido(new PnlCambioAsiento(this, reservacion));
+        frmPlantilla.setVisible(true);
     }
 
     @Override

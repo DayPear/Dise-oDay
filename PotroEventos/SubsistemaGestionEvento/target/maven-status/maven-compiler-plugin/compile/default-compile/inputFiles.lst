@@ -1,4 +1,11 @@
+<<<<<<< Updated upstream
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\SubsistemaGestionEvento\src\main\java\excepciones\GestionEventoException.java
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\SubsistemaGestionEvento\src\main\java\gestionEvento\ControlGestionEvento.java
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\SubsistemaGestionEvento\src\main\java\gestionEvento\GestionEventoFachada.java
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\SubsistemaGestionEvento\src\main\java\gestionEvento\IFachadaGestionEvento.java
+=======
+C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\SubsistemaGestionEvento\src\main\java\controladores\ControlGestionEvento.java
+C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\SubsistemaGestionEvento\src\main\java\excepciones\GestionEventoException.java
+C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\SubsistemaGestionEvento\src\main\java\fachada\GestionEventoFachada.java
+C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\SubsistemaGestionEvento\src\main\java\interfaces\IFachadaGestionEvento.java
+>>>>>>> Stashed changes
