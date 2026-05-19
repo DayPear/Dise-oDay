@@ -4,8 +4,11 @@
  */
 package com.mycompany.subsistemacambioasiento;
 
+import Exception.CambioAsientoException;
 import dtos.AsientoDTO;
+import dtos.AsientoEventoDTO;
 import dtos.BoletoDTO;
+import dtos.ReservacionDTO;
 import java.util.List;
 
 /**
@@ -13,20 +16,26 @@ import java.util.List;
  * @author Dayanara Peralta G
  */
 public class CambioAsientoFachada implements ICambioAsiento{
+    private ControlCambioAsiento controlCambio = ControlCambioAsiento.getInstance();
 
     @Override
-    public BoletoDTO consultarBoleto(String idBoleto) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public BoletoDTO obtenerBoleto(String idReservacion) throws CambioAsientoException{
+        return controlCambio.obtenerBoleto(idReservacion);
     }
 
     @Override
-    public List<AsientoDTO> obtenerCatalogoAsientos() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public boolean verificarDisponibilidad(String idAsiento) throws CambioAsientoException{
+        return controlCambio.validarDisponibilidad(idAsiento);
     }
 
     @Override
-    public boolean confirmarCambioAsiento(String idBoleto, String idNuevoAsiento) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public boolean cambiarAsiento(String idReservacion, String idAsientoNuevo) throws CambioAsientoException {
+        try {
+            controlCambio.cambiarAsiento(idReservacion, idAsientoNuevo);
+            return true;
+        } catch (CambioAsientoException e) {
+            return false;
+        }
     }
-    
+
 }

@@ -1,7 +1,9 @@
 package objetosNegocio;
 
+import adapters.BoletoAdapter;
 import adapters.ReservacionAdapter;
 import daos.ReservacionDAO;
+import dtos.BoletoDTO;
 import dtos.ReservacionDTO;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
@@ -51,7 +53,19 @@ public class ReservacionBO implements IReservacionBO {
             throw new NegocioException(ex.getMessage());
         }
     }
-
+    
+    @Override
+    public BoletoDTO obtenerBoletoPorReservacion(String idReservacion) throws NegocioException{
+        try{
+            if (idReservacion == null) {
+                throw new NegocioException("ID reservación inválido.");
+            }
+            return BoletoAdapter.entidadADTO(reservacionDAO.obtenerBoleto(idReservacion));
+        }catch(PersistenciaException e){
+            throw new NegocioException(e.getMessage());
+        }
+    }
+    
     private boolean validarDatos(ReservacionDTO r) {
         
         if (r == null) {

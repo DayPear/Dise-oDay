@@ -618,7 +618,7 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Esta seguro(a) que desea cambiar el asiento?");
         
         if(confirmacion == JOptionPane.YES_OPTION){
-            coordinador.cambiarAsiento(nuevoAsiento);
+            coordinador.cambiarAsiento(reservacion, nuevoAsiento);
         }
 
     }//GEN-LAST:event_btnCambiarAsientoMouseClicked

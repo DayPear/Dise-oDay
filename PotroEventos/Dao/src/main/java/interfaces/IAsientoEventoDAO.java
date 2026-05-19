@@ -22,5 +22,9 @@ public interface IAsientoEventoDAO {
 
     boolean liberarAsiento(String idAsiento) throws PersistenciaException;
     
+    boolean ocuparAsiento(String idAsientoNuevo) throws PersistenciaException;
+    
     boolean venderAsiento(String idAsiento) throws PersistenciaException;
+    
+    boolean validarDisponibilidad(String idAsiento) throws PersistenciaException;
 }

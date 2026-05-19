@@ -154,6 +154,33 @@ public class AsientoEventoDAO implements IAsientoEventoDAO {
             throw new PersistenciaException("No fue posible liberar el asiento");
         }
     }
+    
+    @Override
+    public boolean ocuparAsiento(String idAsientoNuevo) throws PersistenciaException{
+        try{
+            AsientoEventoMongoEntidad asiento = this.coleccionAsientosEventos
+                    .find(eq("_id", new ObjectId(idAsientoNuevo)))
+                    .first();
+            
+            if (asiento == null) {
+                throw new PersistenciaException("AsientoEvento no encontrado");
+            }
+            
+            asiento.setEstado(EstadoAsiento.VENDIDO.name());
+            
+            UpdateResult resultado = this.coleccionAsientosEventos.
+                    replaceOne(eq("_id", new ObjectId(asiento.getIdComoTexto())), asiento);
+            
+            if (resultado.getMatchedCount() == 0) {
+                throw new PersistenciaException("No se encontró el asiento");
+            }
+            
+            return true;
+            
+        }catch(MongoException e){
+            throw new PersistenciaException("No fue posible ocupar el asiento");
+        }
+    }
 
     @Override
     public boolean venderAsiento(String idAsiento) throws PersistenciaException {
@@ -223,6 +250,31 @@ public class AsientoEventoDAO implements IAsientoEventoDAO {
             return AsientoEventoPersistenciaAdapter.convertirADominio(asiento);
         } catch (MongoException me) {
             throw new PersistenciaException("No fue posible obtener el asiento del evento.");
+        }
+    }
+    
+    /**
+     * Metodo que valida la disponibilidad de un asiento
+     * @param idAsientoEvento asiento al cual se desea ver la disponibilidad
+     * @return true en caso de que sea disponible false en caso contrario
+     * @throws PersistenciaException
+     */
+    @Override
+    public boolean validarDisponibilidad(String idAsientoEvento) throws PersistenciaException{
+        try{
+            AsientoEventoMongoEntidad asiento = this.coleccionAsientosEventos
+                    .find(Filters.and(
+                            Filters.eq("_id", new ObjectId(idAsientoEvento)),
+                            Filters.eq("estado", "DISPONIBLE")))
+                    .first();
+            
+            if (asiento == null) {
+                throw new PersistenciaException("AsientoEvento no encontrado");
+            }
+            
+            return EstadoAsiento.DISPONIBLE.name().equals(asiento.getEstado());
+        }catch(MongoException e){
+            throw new PersistenciaException("No fue posible validar la disponibilidad del asiento");
         }
     }
 
