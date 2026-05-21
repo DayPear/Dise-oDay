@@ -70,8 +70,12 @@ public interface ICoordinadorAplicacion {
     public boolean setUsuarioSesion(UsuarioDTO usuario);
 
     public UsuarioDTO getUsuarioSesion();
+    
+    public boolean cambiarAsiento(String idReservacion, String idAsiento);
 
     public void cerrarSesion();
+    
+    public ReservacionDTO obtenerReservacionesPorId(String idReservacion);
 
     boolean reservarAsiento(String idAsientoEvento);
 

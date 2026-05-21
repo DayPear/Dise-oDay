@@ -131,7 +131,17 @@ public class PnlConsultar extends javax.swing.JPanel {
         lblNombreEventos.setText("Eventos Próximos");
 
         List<ReservacionDTO> proximos = new ArrayList<>();
+        
+        List<ReservacionDTO> todasReservaciones = coordinador.consultarReservaciones(usuario.getIdUsuario());
+    
 
+        if (todasReservaciones == null || todasReservaciones.isEmpty()) {
+            pnlEventos.revalidate();
+            pnlEventos.repaint();
+            return;
+        }
+
+        
         for (ReservacionDTO r : coordinador.consultarReservaciones(usuario.getIdUsuario())) {
             if (r.getEstado() == ReservacionEstadoDTO.ACTIVA && r.getBoleto().getEvento().getFechaHora().isAfter(LocalDateTime.now())) {
                 proximos.add(r);

@@ -29,11 +29,17 @@ public class AsientoEventoPersistenciaAdapter {
         dominio.setEstadoAsiento(EstadoAsiento.valueOf(mongo.getString("estado")));
 
         Document asientoDoc = (Document) mongo.get("asiento_doc");
+        if (asientoDoc == null) {
+            asientoDoc = (Document) mongo.get("asiento");
+        }
         if (asientoDoc != null) {
             dominio.setAsiento(AsientoPersistenciaAdapter.convertirADominio(asientoDoc));
         }
 
         Document eventoDoc = (Document) mongo.get("evento_doc");
+        if (eventoDoc == null) {
+            eventoDoc = (Document) mongo.get("evento");
+        }
         if (eventoDoc != null) {
             dominio.setEvento(EventoPersistenciaAdapter.convertirADominio(eventoDoc));
         }

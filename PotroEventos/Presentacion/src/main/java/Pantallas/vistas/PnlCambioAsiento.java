@@ -239,11 +239,14 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
     }
 
     public void cargarDatos() {
+        if(reservacion.getBoleto() == null){
+            System.err.println("Error: La reservación no tiene boleto asociado");
+            return;
+        }
         if (reservacion.getBoleto().getEvento() == null) {
             return;
         }
 
-        reservacion = new ReservacionDTO();
 
         if (reservacion.getBoleto().getEvento().getUrlImagen() != null && !reservacion.getBoleto().getEvento().getUrlImagen().isEmpty()) {
 
@@ -613,14 +616,21 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
 
         if(asientoAntiguo != null && asientoAntiguo.getIdAsientoEvento().equals(nuevoAsiento.getIdAsientoEvento())){
             JOptionPane.showMessageDialog(this, "El asiento seleccionado es el mismo que el asiento actual");
+            return;
         }
         
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Esta seguro(a) que desea cambiar el asiento?");
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Esta seguro(a) que desea cambiar el asiento?", "Confirmar cambio", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         
         if(confirmacion == JOptionPane.YES_OPTION){
-            coordinador.cambiarAsiento(reservacion, nuevoAsiento);
-        }
-
+            boolean result = coordinador.cambiarAsiento(reservacion.getIdReservacion(), nuevoAsiento.getIdAsientoEvento());
+            if(result == true){
+                JOptionPane.showMessageDialog(this, "Cambio exitoso.");
+                this.reservacion = coordinador.obtenerReservacionesPorId(reservacion.getIdReservacion());
+                coordinador.mostrarDetalles(reservacion);
+            }else{
+                JOptionPane.showMessageDialog(this, "Cambio fallido.\nSeleccione otro asiento.");
+            }
+        } 
     }//GEN-LAST:event_btnCambiarAsientoMouseClicked
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed

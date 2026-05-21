@@ -30,6 +30,8 @@ public class FrmDetallesCompra extends javax.swing.JFrame {
 
     /**
      * Creates new form frmDetallesCompra
+     * @param coordinador
+     * @param reservacion
      */
     public FrmDetallesCompra(ICoordinadorAplicacion coordinador, ReservacionDTO reservacion) {
         this.coordinador = coordinador;
@@ -148,8 +150,53 @@ public class FrmDetallesCompra extends javax.swing.JFrame {
         this.txtEvento.setText(reservacion.getBoleto().getEvento().getNombreEvento());
         if (reservacion.getBoleto().getEvento().isGratuito()) {
             txtAsientos.setText("LIBRE");
+            btnCambiarAsiento.setVisible(false);
         } else {
-            txtAsientos.setText(reservacion.getBoleto().getAsiento().getAsiento().getFila() + reservacion.getBoleto().getAsiento().getAsiento().getNumero().toString());
+            //txtAsientos.setText(reservacion.getBoleto().getAsiento().getAsiento().getFila() + reservacion.getBoleto().getAsiento().getAsiento().getNumero().toString());
+
+//            System.out.println("asiento: "+reservacion.getBoleto().getAsiento());
+//            if (reservacion.getBoleto().getAsiento() != null) {
+//                System.out.println(reservacion.getBoleto().getAsiento().getAsiento());
+//            }
+//            if (reservacion.getBoleto().getAsiento() != null
+//                    && reservacion.getBoleto().getAsiento().getAsiento() != null) {
+//                txtAsientos.setText(
+//                        reservacion.getBoleto().getAsiento().getAsiento().getFila()
+//                        + reservacion.getBoleto().getAsiento().getAsiento().getNumero().toString()
+//                );
+//            } else {
+//                txtAsientos.setText("Sin asiento asignado");
+//            }
+            System.out.println("Reservacion: " + reservacion);
+
+            System.out.println("Boleto: " + reservacion.getBoleto());
+
+            System.out.println("Asiento boleto: " + reservacion.getBoleto().getAsiento());
+
+//            if (reservacion.getBoleto().getAsiento() != null) {
+//                System.out.println("Asiento interno: "
+//                        + reservacion.getBoleto().getAsiento().getAsiento());
+//            }
+            if (reservacion.getBoleto() != null
+                    && reservacion.getBoleto().getAsiento() != null
+                    && reservacion.getBoleto().getAsiento().getAsiento() != null) {
+
+                String fila = reservacion.getBoleto()
+                        .getAsiento()
+                        .getAsiento()
+                        .getFila();
+
+                Integer numero = reservacion.getBoleto()
+                        .getAsiento()
+                        .getAsiento()
+                        .getNumero();
+
+                txtAsientos.setText("Fila " + fila + " Asiento " + numero);
+                btnCambiarAsiento.setVisible(true);
+            } else {
+                txtAsientos.setText("Sin asiento asignado");
+                btnCambiarAsiento.setVisible(true);
+            }
         }
         DateTimeFormatter formateadorFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter formateadorHora = DateTimeFormatter.ofPattern("HH:mm");

@@ -14,14 +14,14 @@ import interfaces.IBoletoDAO;
  *
  * @author Dayanara Peralta G
  */
-public class BoletoBo implements IBoletoBO{
+public class BoletoBO implements IBoletoBO{
     
-    private static BoletoBo instancia;
+    private static BoletoBO instancia;
     private final IBoletoDAO boletoDAO = BoletoDAO.getInstancia();
     
-    public static BoletoBo getInstance(){
+    public static BoletoBO getInstance(){
         if(instancia == null){
-            instancia = new BoletoBo();
+            instancia = new BoletoBO();
         }
         return instancia;
     }

@@ -5,6 +5,7 @@ import adapters.ReservacionAdapter;
 import daos.ReservacionDAO;
 import dtos.BoletoDTO;
 import dtos.ReservacionDTO;
+import entidadesmongo.ReservacionMongoEntidad;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import interfaces.IReservacionBO;
@@ -20,7 +21,7 @@ public class ReservacionBO implements IReservacionBO {
     private static ReservacionBO instance;
     private final IReservacionDAO reservacionDAO = ReservacionDAO.getInstance();
 
-    private ReservacionBO() {
+    public ReservacionBO() {
     }
 
     public static ReservacionBO getInstance() {
@@ -63,6 +64,19 @@ public class ReservacionBO implements IReservacionBO {
             return BoletoAdapter.entidadADTO(reservacionDAO.obtenerBoleto(idReservacion));
         }catch(PersistenciaException e){
             throw new NegocioException(e.getMessage());
+        }
+    }
+    
+    public ReservacionDTO obtenerReservacionPorId(String idReservacion) {
+        try {
+            Entitys.Reservacion reservacionDominio = reservacionDAO.obtenerPorId(idReservacion);
+
+            if (reservacionDominio == null) {
+                return null;
+            }
+            return adapters.ReservacionAdapter.entidadADTO(reservacionDominio);
+        } catch (Exception e) {
+            return null;
         }
     }
     
