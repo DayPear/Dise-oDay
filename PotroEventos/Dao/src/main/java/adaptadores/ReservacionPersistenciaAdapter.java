@@ -6,6 +6,7 @@ package adaptadores;
 
 import Entitys.ENUMS.ReservacionEstado;
 import Entitys.Reservacion;
+import entidadesmongo.PagoMongoEntidad;
 import entidadesmongo.ReservacionMongoEntidad;
 import entidadesresumenmongo.UsuarioResumenMongo;
 import excepciones.PersistenciaException;

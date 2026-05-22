@@ -1,11 +1,16 @@
 package adapters;
 
+import Entitys.Categoria;
+import Entitys.ENUMS.CategoriaEvento;
 import Entitys.ENUMS.EstadoEvento;
 import Entitys.ENUMS.TipoEventoP;
 import Entitys.Evento;
+import dtos.CategoriaDTO;
+import dtos.ENUMS.CategoriaEventoDTO;
 import dtos.ENUMS.EstadoEventoDTO;
 import dtos.ENUMS.TipoEventoN;
 import dtos.EventoDTO;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package adapters;
 
 import Entitys.Asiento;
+import Entitys.Seccion;
 import dtos.AsientoDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,4 +61,17 @@ public class AsientoAdapter {
         return listaDTO;
     }
 
+    public static List<Asiento> dtosAEntidad(List<AsientoDTO> dtos) {
+        if (dtos == null) {
+            return new ArrayList<>();
+        }
+
+        List<Asiento> listaEntidad = new ArrayList<>();
+
+        for (AsientoDTO dto : dtos) {
+            listaEntidad.add(dtoAEntidad(dto));
+        }
+
+        return listaEntidad;
+    }
 }

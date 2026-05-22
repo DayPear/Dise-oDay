@@ -9,6 +9,11 @@ import dtos.ENUMS.ReservacionEstadoDTO;
 import dtos.ReservacionDTO;
 import dtos.UsuarioDTO;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +34,8 @@ public class PnlConsultar extends javax.swing.JPanel {
     private ICoordinadorAplicacion coordinador;
 
     private UsuarioDTO usuario;
+    
+    private GridBagConstraints gbc;
 
     /**
      * Creates new form PnlConsultar

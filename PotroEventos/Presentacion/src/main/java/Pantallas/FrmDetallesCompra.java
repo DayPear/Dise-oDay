@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
  */
 public class FrmDetallesCompra extends javax.swing.JFrame {
 
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmDetallesCompra.class.getName());
     private ICoordinadorAplicacion coordinador;
     private ReservacionDTO reservacion;
 

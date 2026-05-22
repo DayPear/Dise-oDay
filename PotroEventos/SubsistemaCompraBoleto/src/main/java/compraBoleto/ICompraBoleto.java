@@ -4,6 +4,7 @@ import dtos.EventoDTO;
 import dtos.SeccionDTO;
 import dtos.AsientoEventoDTO;
 import dtos.AsientoDTO;
+import dtos.BoletoDTO;
 import dtos.CobroDTO;
 import dtos.PagoDTO;
 import dtos.ReservacionDTO;

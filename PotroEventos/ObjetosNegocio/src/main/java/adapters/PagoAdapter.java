@@ -6,6 +6,7 @@ package adapters;
 
 import Entitys.Pago;
 import dtos.PagoDTO;
+import java.time.LocalDateTime;
 
 /**
  *

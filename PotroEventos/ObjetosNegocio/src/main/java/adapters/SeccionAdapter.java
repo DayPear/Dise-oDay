@@ -65,6 +65,7 @@ public class SeccionAdapter {
         entidad.setIdSeccion(dto.getIdSeccion());
         entidad.setNombre(dto.getNombre());
         entidad.setPrecioBase(dto.getPrecioBase());
+        // La capacidad se suele manejar internamente en la lógica de negocio
 
         return entidad;
     }

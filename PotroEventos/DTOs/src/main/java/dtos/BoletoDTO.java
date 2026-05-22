@@ -1,6 +1,7 @@
 package dtos;
 
 import dtos.ENUMS.EstadoBoletoDTO;
+import java.time.LocalDate;
 
 /**
  *

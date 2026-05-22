@@ -8,6 +8,8 @@ import Entitys.Usuario;
 import dtos.LoginDTO;
 import dtos.RegistroUsuarioDTO;
 import dtos.UsuarioDTO;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -43,6 +45,14 @@ public class UsuarioAdapter {
         usuario.setCreditos(dto.getCreditos());
         
         return usuario;
+    }
+    
+    public static List<UsuarioDTO> listaDTO(List<Usuario> lista) {
+        List<UsuarioDTO> usuarios = new ArrayList<>();
+        for (Usuario user : lista) {
+            usuarios.add(entidadADTO(user));
+        }
+        return usuarios;
     }
     
     public static Usuario dtoRegistroAEntidad(RegistroUsuarioDTO registroDTO){

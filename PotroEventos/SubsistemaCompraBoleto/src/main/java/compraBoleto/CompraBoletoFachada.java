@@ -2,6 +2,7 @@ package compraBoleto;
 
 import dtos.AsientoDTO;
 import dtos.AsientoEventoDTO;
+import dtos.BoletoDTO;
 import dtos.CobroDTO;
 import dtos.EventoDTO;
 import dtos.PagoDTO;
@@ -28,7 +29,7 @@ public class CompraBoletoFachada implements ICompraBoleto {
 
     @Override
     public List<AsientoDTO> obtenerAsientosPorSeccion(String idSeccion) throws CompraBoletoException {
-        return controlCompra.obtenerCatalogoAsientos();
+        return controlCompra.obtenerCatalogoAsientos(); // ojo xq donde me meto el id? ahorita checas majo
     }
 
     @Override
@@ -45,7 +46,7 @@ public class CompraBoletoFachada implements ICompraBoleto {
     public List<AsientoDTO> obtenerCatalogoAsientos() throws CompraBoletoException {
         return controlCompra.obtenerCatalogoAsientos();
     }
-    
+
     @Override
     public String generarCodigoQR(EventoDTO evento, AsientoEventoDTO asiento, String token) throws CompraBoletoException {
         return controlCompra.generarCodigoQR(evento, asiento, token);
@@ -55,7 +56,7 @@ public class CompraBoletoFachada implements ICompraBoleto {
     public boolean reservarAsiento(String idAsientoEvento) throws CompraBoletoException {
         return controlCompra.reservarAsiento(idAsientoEvento);
     }
-    
+
     @Override
     public boolean liberarAsiento(String idAsientoEvento) throws CompraBoletoException {
         return controlCompra.liberarAsiento(idAsientoEvento);
@@ -65,7 +66,7 @@ public class CompraBoletoFachada implements ICompraBoleto {
     public boolean venderAsientos(List<AsientoEventoDTO> asientosSeleccionados, Long totalCompra, boolean gratuito, ReservacionDTO reservacion) throws CompraBoletoException {
         return controlCompra.venderAsientos(asientosSeleccionados, totalCompra, gratuito, reservacion);
     }
-    
+
     @Override
     public PagoDTO realizarCompra(TarjetaDTO noTarjeta, CobroDTO cobro) throws CompraBoletoException {
         return controlCompra.realizarCompra(noTarjeta, cobro);

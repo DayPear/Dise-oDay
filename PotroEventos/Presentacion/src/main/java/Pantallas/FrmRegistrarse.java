@@ -22,6 +22,11 @@ public class FrmRegistrarse extends javax.swing.JFrame {
 
     private ICoordinadorAplicacion coordinador;
 
+    public FrmRegistrarse() {
+        initComponents();
+
+    }
+
     /**
      * Creates new form frmInicioSesion
      *
