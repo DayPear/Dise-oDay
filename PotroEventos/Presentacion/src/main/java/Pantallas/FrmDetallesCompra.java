@@ -192,7 +192,6 @@ public class FrmDetallesCompra extends javax.swing.JFrame {
         txtHorasAntes = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        btnCambiarAsiento = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -357,27 +356,15 @@ public class FrmDetallesCompra extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnCambiarAsiento.setBackground(new java.awt.Color(0, 119, 255));
-        btnCambiarAsiento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnCambiarAsiento.setForeground(new java.awt.Color(255, 255, 255));
-        btnCambiarAsiento.setText("Cambiar asiento");
-        btnCambiarAsiento.setBorderPainted(false);
-        btnCambiarAsiento.setFocusPainted(false);
-        btnCambiarAsiento.addActionListener(this::btnCambiarAsientoActionPerformed);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(iconEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnCambiarAsiento)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(txtUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(459, 459, 459))
@@ -406,6 +393,7 @@ public class FrmDetallesCompra extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAceptar)
                         .addGap(121, 121, 121))))
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,9 +427,7 @@ public class FrmDetallesCompra extends javax.swing.JFrame {
                         .addComponent(iconQR, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(btnAceptar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(btnCambiarAsiento)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -493,14 +479,8 @@ public class FrmDetallesCompra extends javax.swing.JFrame {
         coordinador.mostrarConsultarMenu();
     }//GEN-LAST:event_btnConsultarActionPerformed
 
-    private void btnCambiarAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarAsientoActionPerformed
-        // TODO add your handling code here:
-        coordinador.mostrarCambioAsiento(reservacion);
-    }//GEN-LAST:event_btnCambiarAsientoActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
-    private javax.swing.JButton btnCambiarAsiento;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnInicio;
     private javax.swing.JLabel iconEvento;

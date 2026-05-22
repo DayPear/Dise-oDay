@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\Datos\src\main\java\Entitys\Asiento.java
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\Datos\src\main\java\Entitys\AsientoEvento.java
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\Datos\src\main\java\Entitys\Boleto.java
@@ -16,22 +15,3 @@ C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\Datos\src\main\java\Entit
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\Datos\src\main\java\Entitys\Seccion.java
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\Datos\src\main\java\Entitys\Ubicacion.java
 C:\Users\aaron\OneDrive\Escritorio\Dise-o\PotroEventos\Datos\src\main\java\Entitys\Usuario.java
-=======
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Asiento.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\AsientoEvento.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Boleto.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Categoria.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\ENUMS\CategoriaEvento.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\ENUMS\EstadoAsiento.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\ENUMS\EstadoBoleto.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\ENUMS\EstadoEvento.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\ENUMS\ReservacionEstado.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\ENUMS\TipoEventoP.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\ENUMS\TipoUbicacionP.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Evento.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Pago.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Reservacion.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Seccion.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Ubicacion.java
-C:\Users\dayan\ProyectoDiseño\Dise-oDay\PotroEventos\Datos\src\main\java\Entitys\Usuario.java
->>>>>>> Stashed changes
