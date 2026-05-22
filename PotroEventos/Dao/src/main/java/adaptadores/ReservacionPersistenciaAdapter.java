@@ -62,7 +62,9 @@ public class ReservacionPersistenciaAdapter {
         Reservacion dominio = new Reservacion();
         
         dominio.setIdReservacion(mongo.getObjectId("_id").toHexString());
-        dominio.setTotal(mongo.getDouble("total"));
+        //dominio.setTotal(mongo.getDouble("total"));
+        dominio.setTotal(((Number) mongo.get("total")).doubleValue());
+
         
         dominio.setBoleto(BoletoPersistenciaAdapter.convertirADominio((Document) mongo.get("boleto")));
         

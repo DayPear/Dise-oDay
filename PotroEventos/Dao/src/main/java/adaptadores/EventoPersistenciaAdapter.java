@@ -36,11 +36,30 @@ public class EventoPersistenciaAdapter {
                 .toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime());
-        dominio.setEstadoEvento(EstadoEvento.valueOf(documento.getString("estado")));
+        //dominio.setEstadoEvento(EstadoEvento.valueOf(documento.getString("estado")));
+        
+        String estado = documento.getString("estado");
+        if (estado != null && !estado.isBlank()) {
+            dominio.setEstadoEvento(EstadoEvento.valueOf(estado));
+        }
+        
         dominio.setUrlImagen(documento.getString("urlImagen"));
-        dominio.setGratuito(documento.getBoolean("gratuito"));
-        dominio.setTipoEvento(TipoEventoP.valueOf(documento.getString("tipo")));
-        dominio.setDisponibilidad(documento.getInteger("disponibilidad"));
+        //dominio.setGratuito(documento.getBoolean("gratuito"));
+        //dominio.setTipoEvento(TipoEventoP.valueOf(documento.getString("tipo")));
+        
+        Boolean gratuito = documento.getBoolean("gratuito");
+        dominio.setGratuito(gratuito != null && gratuito);
+
+        String tipo = documento.getString("tipo");
+        if (tipo != null && !tipo.isBlank()) {
+            dominio.setTipoEvento(TipoEventoP.valueOf(tipo));
+        }
+        
+        //dominio.setDisponibilidad(documento.getInteger("disponibilidad"));
+        Integer disp = documento.getInteger("disponibilidad");
+        if (disp != null) {
+            dominio.setDisponibilidad(disp);
+        }
 
         Document catDoc = (Document) documento.get("categoria");
         if (catDoc != null) {
@@ -56,8 +75,19 @@ public class EventoPersistenciaAdapter {
             Ubicacion ubi = new Ubicacion();
             ubi.setIdUbicacion(ubiDoc.getObjectId("_id").toHexString());
             ubi.setNombre(ubiDoc.getString("nombre"));
-            ubi.setTipo(TipoUbicacionP.valueOf(ubiDoc.getString("tipoUbicacion")));
-            ubi.setCapacidad(ubiDoc.getInteger("capacidad"));
+            //ubi.setTipo(TipoUbicacionP.valueOf(ubiDoc.getString("tipoUbicacion")));
+
+            String tipoUbi = ubiDoc.getString("tipoUbicacion");
+            if (tipoUbi != null && !tipoUbi.isBlank()) {
+                ubi.setTipo(TipoUbicacionP.valueOf(tipoUbi));
+            }
+            //ubi.setCapacidad(ubiDoc.getInteger("capacidad"));
+
+            Integer cap = ubiDoc.getInteger("capacidad");
+            if (cap != null) {
+                ubi.setCapacidad(cap);
+            }
+            
             ubi.setSecciones(SeccionPersistenciaAdapter.convertirDocsADominio(ubiDoc.getList("secciones", Document.class)));
             dominio.setUbicacion(ubi);
         }
