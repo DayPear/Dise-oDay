@@ -101,4 +101,8 @@ public class ConexionMongo {
         return obtenerBaseDatos()
                 .getCollection("ubicaciones", UbicacionMongoEntidad.class);
     }
+    
+    public static MongoCollection<BoletoMongoEntidad> obtenerColeccionBoletos(){
+        return obtenerBaseDatos().getCollection("boletos", BoletoMongoEntidad.class);
+    }
 }

@@ -13,29 +13,33 @@ import entidadesresumenmongo.EventoResumenMongo;
  */
 public class BoletoMongoEntidad {
     
-    private String codigoQR;
+    private String id;
     private String estado;
     private EventoResumenMongo evento;
     private AsientoEventoResumenMongo asiento;
     private String token;
+    private double precio;
+    private String codigoQR;
 
     public BoletoMongoEntidad() {
     }
 
-    public BoletoMongoEntidad(String codigoQR, String estado, EventoResumenMongo evento, AsientoEventoResumenMongo asiento, String token) {
-        this.codigoQR = codigoQR;
+    public BoletoMongoEntidad(String id, String estado, EventoResumenMongo evento, AsientoEventoResumenMongo asiento, String token, double precio, String codigoQR) {
+        this.id = id;
         this.estado = estado;
         this.evento = evento;
         this.asiento = asiento;
         this.token = token;
-    }
-
-    public String getCodigoQR() {
-        return codigoQR;
-    }
-
-    public void setCodigoQR(String codigoQR) {
+        this.precio = precio;
         this.codigoQR = codigoQR;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEstado() {
@@ -70,4 +74,21 @@ public class BoletoMongoEntidad {
         this.token = token;
     }
 
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public String getCodigoQR() {
+        return codigoQR;
+    }
+
+    public void setCodigoQR(String codigoQR) {
+        this.codigoQR = codigoQR;
+    }
+
+    
 }

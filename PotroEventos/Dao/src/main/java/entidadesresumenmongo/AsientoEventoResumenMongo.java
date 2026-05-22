@@ -14,15 +14,20 @@ import org.bson.types.ObjectId;
 public class AsientoEventoResumenMongo {
     
     private ObjectId idAsientoEvento;
+    private ObjectId asiento;
+    private ObjectId evento;
     private String fila;
     private int numero;
     private String nombreSeccion;
-
+    
+    
     public AsientoEventoResumenMongo() {
     }
 
-    public AsientoEventoResumenMongo(ObjectId idAsientoEvento, String fila, int numero, String nombreSeccion) {
+    public AsientoEventoResumenMongo(ObjectId idAsientoEvento, ObjectId asiento, ObjectId evento, String fila, int numero, String nombreSeccion) {
         this.idAsientoEvento = idAsientoEvento;
+        this.asiento = asiento;
+        this.evento = evento;
         this.fila = fila;
         this.numero = numero;
         this.nombreSeccion = nombreSeccion;
@@ -35,13 +40,21 @@ public class AsientoEventoResumenMongo {
     public void setIdAsientoEvento(ObjectId idAsientoEvento) {
         this.idAsientoEvento = idAsientoEvento;
     }
-    
-    @BsonIgnore
-    public String getIdComoTexto(){
-        if(idAsientoEvento == null){
-            return null;
-        }
-        return idAsientoEvento.toHexString();
+
+    public ObjectId getAsiento() {
+        return asiento;
+    }
+
+    public void setAsiento(ObjectId asiento) {
+        this.asiento = asiento;
+    }
+
+    public ObjectId getEvento() {
+        return evento;
+    }
+
+    public void setEvento(ObjectId evento) {
+        this.evento = evento;
     }
 
     public String getFila() {
@@ -67,5 +80,6 @@ public class AsientoEventoResumenMongo {
     public void setNombreSeccion(String nombreSeccion) {
         this.nombreSeccion = nombreSeccion;
     }
+
     
 }

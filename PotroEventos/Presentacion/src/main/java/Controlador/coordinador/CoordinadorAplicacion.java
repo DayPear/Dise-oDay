@@ -1,12 +1,16 @@
 package Controlador.coordinador;
 
+import CambioAsiento.CambioAsientoFachada;
+import CambioAsiento.ICambioAsiento;
 import Controlador.interfaz.ICoordinadorAplicacion;
+import Exception.CambioAsientoException;
 import Pantallas.FrmInicioSesion;
 import Pantallas.FrmPago;
 import Pantallas.FrmPlantillaSistema;
 import Pantallas.FrmRegistrarse;
 import Pantallas.FrmDetallesCompra;
 import Pantallas.FrmRegistroItson;
+import Pantallas.vistas.PnlCambioAsiento;
 import Pantallas.vistas.PnlConsultar;
 import Pantallas.vistas.PnlConsultarEvento;
 import Pantallas.vistas.PnlConsultarMenu;
@@ -58,6 +62,7 @@ public class CoordinadorAplicacion implements ICoordinadorAplicacion {
     private final ICompraBoleto controlCompra = new CompraBoletoFachada();
     private final IFachadaGestionEvento controlEvento = new GestionEventoFachada();
     private final IGestionUsuariosFachada controlUsuarios = new GestionUsuarioFachada();
+    private final ICambioAsiento controlCambio = new CambioAsientoFachada();
 
     private FrmInicioSesion frmInicioSesion;
     private FrmRegistrarse frmRegistrarse;
@@ -261,7 +266,7 @@ public class CoordinadorAplicacion implements ICoordinadorAplicacion {
 
     @Override
     public void cerrarSesion() {
-        controlInicioSesion.cerrarSesion();
+        //controlInicioSesion.cerrarSesion();
         this.mostrarInicioSesion();
     }
 
@@ -411,4 +416,22 @@ public class CoordinadorAplicacion implements ICoordinadorAplicacion {
         return frmRegistro.registroExitoso();
     }
 
+    @Override
+    public void mostrarCambioAsiento(ReservacionDTO reservacion){
+        ocultarTodo();
+        if(frmPlantilla == null){
+            frmPlantilla = new FrmPlantillaSistema(this);
+        }
+        frmPlantilla.setContenido(new PnlCambioAsiento(this, reservacion));
+        frmPlantilla.setVisible(true);
+    }
+    
+    @Override
+    public boolean cambioAsiento(ReservacionDTO reservacion, AsientoEventoDTO nuevoAsiento) throws CoordinadorException{
+        try{
+            return controlCambio.cambiarAsiento(reservacion.getIdReservacion(), nuevoAsiento.getIdAsientoEvento());
+        }catch(CambioAsientoException e){
+            throw new CoordinadorException(e.getMessage());
+        }
+    }
 }

@@ -88,4 +88,8 @@ public interface ICoordinadorAplicacion {
     boolean validarCredenciales(UsuarioInstitucionalDTO credenciales);
     
     boolean isUsuarioITSONRegistrado();
+    
+    public void mostrarCambioAsiento(ReservacionDTO reservacion);
+    
+    public boolean cambioAsiento(ReservacionDTO reservacion, AsientoEventoDTO nuevoAsiento) throws CoordinadorException;
 }

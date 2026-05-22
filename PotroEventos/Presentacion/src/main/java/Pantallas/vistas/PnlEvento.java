@@ -59,7 +59,12 @@ public class PnlEvento extends Panel {
         return new PnlEvento(reservacion.getBoleto().getEvento(), reservacion, padre, true, coordinador);
     }
 
+    public void mostrarBtnCambioAsiento(){
+        btnCambioAsiento.setVisible(true);
+    }
+    
     private void cargarEvento() {
+        btnCambioAsiento.setVisible(false);
         if (modoConsulta) {
             if (reservacion.getBoleto().getEvento().getUrlImagen() != null && !reservacion.getBoleto().getEvento().getUrlImagen().isEmpty()) {
 
@@ -114,6 +119,9 @@ public class PnlEvento extends Panel {
     private void configurarModo() {
         if (modoConsulta) {
             btnMostrar.setText("Ver mis boletos");
+            if(evento.isGratuito()){
+                btnCambioAsiento.setVisible(false);
+            }
         } else {
             btnMostrar.setText("Mostrar Información");
         }
@@ -133,6 +141,7 @@ public class PnlEvento extends Panel {
         lblUbicacion = new javax.swing.JLabel();
         iconEvento = new javax.swing.JLabel();
         btnMostrar = new javax.swing.JButton();
+        btnCambioAsiento = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(221, 212, 212));
         setMaximumSize(new java.awt.Dimension(270, 188));
@@ -156,6 +165,13 @@ public class PnlEvento extends Panel {
         btnMostrar.setText("Mostrar Información");
         btnMostrar.addActionListener(this::btnMostrarActionPerformed);
 
+        btnCambioAsiento.setBackground(new java.awt.Color(31, 92, 204));
+        btnCambioAsiento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCambioAsiento.setForeground(new java.awt.Color(255, 255, 255));
+        btnCambioAsiento.setText("Cambiar asiento");
+        btnCambioAsiento.setBorderPainted(false);
+        btnCambioAsiento.addActionListener(this::btnCambioAsientoActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,15 +180,16 @@ public class PnlEvento extends Panel {
                 .addGap(16, 16, 16)
                 .addComponent(iconEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblFechaHora, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                    .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(16, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnMostrar)
-                .addGap(19, 19, 19))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblFechaHora, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                        .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnMostrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCambioAsiento)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,10 +202,12 @@ public class PnlEvento extends Panel {
                         .addGap(18, 18, 18)
                         .addComponent(lblFechaHora)
                         .addGap(18, 18, 18)
-                        .addComponent(lblUbicacion)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMostrar)
-                .addContainerGap(8, Short.MAX_VALUE))
+                        .addComponent(lblUbicacion)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMostrar)
+                            .addComponent(btnCambioAsiento))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -200,8 +219,13 @@ public class PnlEvento extends Panel {
         }
     }//GEN-LAST:event_btnMostrarActionPerformed
 
+    private void btnCambioAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambioAsientoActionPerformed
+        coordinador.mostrarCambioAsiento(reservacion);
+    }//GEN-LAST:event_btnCambioAsientoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCambioAsiento;
     private javax.swing.JButton btnMostrar;
     private javax.swing.JLabel iconEvento;
     private javax.swing.JLabel lblFechaHora;

@@ -225,5 +225,31 @@ public class AsientoEventoDAO implements IAsientoEventoDAO {
             throw new PersistenciaException("No fue posible obtener el asiento del evento.");
         }
     }
+    
+    public boolean ocuparAsiento(String idAsientoNuevo) throws PersistenciaException{
+        try{
+            AsientoEventoMongoEntidad asiento = this.coleccionAsientosEventos
+                    .find(eq("_id", new ObjectId(idAsientoNuevo)))
+                    .first();
+            
+            if (asiento == null) {
+                throw new PersistenciaException("AsientoEvento no encontrado");
+            }
+            
+            asiento.setEstado(EstadoAsiento.VENDIDO.name());
+            
+            UpdateResult resultado = this.coleccionAsientosEventos.
+                    replaceOne(eq("_id", new ObjectId(asiento.getIdComoTexto())), asiento);
+            
+            if (resultado.getMatchedCount() == 0) {
+                throw new PersistenciaException("No se encontró el asiento");
+            }
+            
+            return true;
+            
+        }catch(MongoException e){
+            throw new PersistenciaException("No fue posible ocupar el asiento");
+        }
+    }
 
 }
