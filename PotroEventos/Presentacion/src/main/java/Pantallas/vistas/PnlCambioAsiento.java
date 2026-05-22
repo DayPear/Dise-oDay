@@ -597,6 +597,31 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVolverMouseClicked
 
     private void btnCambiarAsientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCambiarAsientoMouseClicked
+
+        if (reservacion.getBoleto().getEvento().isGratuito()) {
+
+            String tokenNuevo = UUID.randomUUID().toString();
+
+            // 2. Generar la ruta del QR usando ese token
+            String rutaQR = coordinador.generarQR(reservacion.getBoleto().getEvento(), null, tokenNuevo);
+
+            BoletoDTO boletoGratis = new BoletoDTO(rutaQR, 0.0, EstadoBoletoDTO.ACTIVO, reservacion.getBoleto().getEvento(), null, tokenNuevo);
+
+            reservacion.setBoleto(boletoGratis);
+            reservacion.setPago(null);
+            reservacion.setTotal(0.0);
+            reservacion.setEstado(ReservacionEstadoDTO.ACTIVA);
+            reservacion.setUsuario(coordinador.getUsuarioSesion());
+            reservacion.setFechaHora(LocalDateTime.now());
+
+            coordinador.venderAsientos(asientosSeleccionados, 0L, true, reservacion);
+
+            JOptionPane.showMessageDialog(this, "Boleto adquirido correctamente.");
+            coordinador.mostrarDetalles(reservacion);
+            return;
+        }
+
+        // ================= EVENTO DE PAGO =================
         if (asientosSeleccionados == null || asientosSeleccionados.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Selecciona un asiento en el mapa.");
             return;
@@ -607,20 +632,69 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
             return;
         }
 
-        AsientoEventoDTO nuevoAsiento = asientosSeleccionados.get(0);
-        
-        AsientoEventoDTO asientoAntiguo = reservacion.getBoleto().getAsiento();
+        AsientoEventoDTO asientoDTO = new AsientoEventoDTO(
+                asientosSeleccionados.get(0).getIdAsientoEvento(),
+                asientosSeleccionados.get(0).getPrecio(),
+                asientosSeleccionados.get(0).getEstadoAsiento(),
+                asientosSeleccionados.get(0).getAsiento(),
+                asientosSeleccionados.get(0).getEvento()
+        );
 
-        if(asientoAntiguo != null && asientoAntiguo.getIdAsientoEvento().equals(nuevoAsiento.getIdAsientoEvento())){
-            JOptionPane.showMessageDialog(this, "El asiento seleccionado es el mismo que el asiento actual");
-        }
-        
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Esta seguro(a) que desea cambiar el asiento?");
-        
-        if(confirmacion == JOptionPane.YES_OPTION){
-            coordinador.cambiarAsiento(nuevoAsiento);
-        }
+        // 1. Generar token
+        String tokenPago = UUID.randomUUID().toString();
 
+        // 2. Generar QR
+        String rutaQR = coordinador.generarQR(reservacion.getBoleto().getEvento(), asientoDTO, tokenPago);
+
+        // 3. Crear DTO
+        BoletoDTO boleto = new BoletoDTO(rutaQR, 0.0, EstadoBoletoDTO.ACTIVO, reservacion.getBoleto().getEvento(), asientoDTO, tokenPago);
+
+        reservacion.setBoleto(boleto);
+
+        reservacion.setBoleto(boleto);
+        reservacion.setFechaHora(LocalDateTime.now());
+        reservacion.setTotal(totalCompra.doubleValue());
+        reservacion.setEstado(ReservacionEstadoDTO.ACTIVA);
+        reservacion.setUsuario(coordinador.getUsuarioSesion());
+
+        /*
+        esto irá en comentarios xq rn no aplica
+         */
+ /*
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Desea pagar con créditos de la aplicación?");
+
+        // ================= PAGO CON CRÉDITOS =================
+        if (opcion == JOptionPane.OK_OPTION) {
+
+            Long total = totalCompra;
+
+            reservacionParcial.setCobro(
+                    new CobroDTO(total * 2, "CRÉDITO APP", "Pago con créditos")
+            );
+
+            boolean exito = coordinador.venderAsientos(asientosSeleccionados, total, false, reservacionParcial);
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Compra realizada con créditos.");
+                coordinador.mostrarDetalles(reservacionParcial);
+            } else {
+                JOptionPane.showMessageDialog(this, "No tienes créditos suficientes.");
+            }
+
+        } // ================= PAGO CON TARJETA =================
+        else if (opcion == JOptionPane.NO_OPTION) {
+
+            // Guardas como pendiente en backend
+            coordinador.venderAsientos(asientosSeleccionados, totalCompra, false, reservacionParcial);
+
+            // Ahora sí vas a la pantalla de pago
+            coordinador.mostrarPago(reservacionParcial);
+        }*/
+        // Guardas como pendiente en backend
+        coordinador.venderAsientos(asientosSeleccionados, totalCompra, false, reservacion);
+
+        // Ahora sí vas a la pantalla de pago
+        coordinador.mostrarPago(reservacion);
     }//GEN-LAST:event_btnCambiarAsientoMouseClicked
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed

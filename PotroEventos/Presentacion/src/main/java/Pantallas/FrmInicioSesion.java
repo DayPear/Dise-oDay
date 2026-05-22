@@ -65,7 +65,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
 
         registrate.setFont(new java.awt.Font("Calibri", 0, 16)); // NOI18N
         registrate.setText("<html>¿No tienes cuenta? <font color=\"blue\"><u>Regístrate</u></font></html>");
-        registrate.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        registrate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         registrate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 registrateMouseClicked(evt);
