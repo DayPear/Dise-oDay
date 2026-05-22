@@ -269,11 +269,10 @@ public class AsientoEventoDAO implements IAsientoEventoDAO {
                     .first();
             
             if (asiento == null) {
-                System.out.println("El ID del asiento no existe en MongoDB.");
-                return false;
+                throw new PersistenciaException("AsientoEvento no encontrado");
             }
             
-            return EstadoAsiento.DISPONIBLE.name().equalsIgnoreCase(asiento.getEstado());
+            return EstadoAsiento.DISPONIBLE.name().equals(asiento.getEstado());
         }catch(MongoException e){
             throw new PersistenciaException("No fue posible validar la disponibilidad del asiento");
         }

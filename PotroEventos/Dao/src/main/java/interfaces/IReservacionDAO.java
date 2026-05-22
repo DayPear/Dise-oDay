@@ -6,7 +6,6 @@ package interfaces;
 
 import Entitys.Boleto;
 import Entitys.Reservacion;
-import entidadesmongo.ReservacionMongoEntidad;
 import excepciones.PersistenciaException;
 import java.util.List;
 
@@ -21,6 +20,4 @@ public interface IReservacionDAO {
     List<Reservacion> obtenerReservacionesUsuario(String idUsuario) throws PersistenciaException;
     
     Boleto obtenerBoleto(String idReservacion) throws PersistenciaException;
-    
-    Reservacion obtenerPorId(String idReservacion);
 }

@@ -19,17 +19,11 @@ public class UbicacionAdapter {
         if(entidad == null){
             return null;
         }
-        
-        TipoUbicacionN tipoDTO = (entidad.getTipo() != null) 
-                ? TipoUbicacionN.valueOf(entidad.getTipo().name()) 
-                : null;
-        
         return new UbicacionDTO(
                 entidad.getIdUbicacion(),
                 entidad.getNombre(),
                 entidad.getCapacidad(),
-                //TipoUbicacionN.valueOf(entidad.getTipo().name()),
-                tipoDTO,
+                TipoUbicacionN.valueOf(entidad.getTipo().name()),
                 SeccionAdapter.listaEntidadADTO(entidad.getSecciones())
         );
     }
@@ -38,17 +32,11 @@ public class UbicacionAdapter {
         if(dto == null){
             return null;
         }
-        
-        TipoUbicacionP tipoEntidad = (dto.getTipo() != null) 
-                ? TipoUbicacionP.valueOf(dto.getTipo().name()) 
-                : null;
-        
         return new Ubicacion(
                 dto.getIdUbicacion(),
                 dto.getNombre(),
                 dto.getCapacidad(),
-                //TipoUbicacionP.valueOf(dto.getTipo().name()),
-                tipoEntidad,
+                TipoUbicacionP.valueOf(dto.getTipo().name()),
                 SeccionAdapter.listaDTOsAEntidades(dto.getSecciones())
         );
     }

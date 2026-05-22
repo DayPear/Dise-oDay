@@ -37,18 +37,11 @@ public class BoletoDAO implements IBoletoDAO{
     @Override
     public void actualizarAsiento(String idReservacion, String idAsientoNuevo) throws PersistenciaException {
         try{
-            if (idReservacion == null || idAsientoNuevo == null) {
-                throw new PersistenciaException("Los IDs no puede ser nulo");
+            if (idReservacion == null) {
+                throw new PersistenciaException("El ID de la reservación no puede ser nulo");
             }
-            
-            var coleccionAsientos = conexion.ConexionMongo.obtenerColeccionAsientosEvento();
-
-            org.bson.Document nuevoAsientoDoc = (org.bson.Document) coleccionAsientos.find(
-                    com.mongodb.client.model.Filters.eq("_id", new org.bson.types.ObjectId(idAsientoNuevo)),
-                     org.bson.Document.class).first();
-            
-            if (nuevoAsientoDoc == null) {
-                throw new PersistenciaException("ENo se encontró el nuevo asiento en la BD para incrustarlo.");
+            if (idAsientoNuevo == null) {
+                throw new PersistenciaException("El ID del nuevo asiento no puede ser nulo");
             }
             
             UpdateResult resultado = coleccionReservaciones.updateOne(
@@ -56,18 +49,11 @@ public class BoletoDAO implements IBoletoDAO{
                 Updates.set("boleto.asiento", new ObjectId(idAsientoNuevo))
             );
             
-            System.out.println("DAO - Coincidencias encontradas (Matched): " + resultado.getMatchedCount());
-            System.out.println("DAO - Documentos modificados (Modified): " + resultado.getModifiedCount());
-            
-//            if (resultado.getMatchedCount() == 0) {
-//                throw new PersistenciaException("No se encontró el asiento");
-//            }
-//            if (resultado.getModifiedCount() == 0) {
-//                System.out.println("ADVERTENCIA: La reservación existe pero no se modificó. Puede que el asiento ya sea el mismo.");
-//            }
+            if (resultado.getMatchedCount() == 0) {
+                throw new PersistenciaException("No se encontró el asiento");
+            }
             
         }catch(MongoException e){
-            System.err.println("Error interno de Mongo: " + e.getMessage());
             throw new PersistenciaException("Error al actualizar el asiento del boleto: " + e.getMessage());
         }
     }

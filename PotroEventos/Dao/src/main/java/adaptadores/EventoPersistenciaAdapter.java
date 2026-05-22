@@ -56,20 +56,7 @@ public class EventoPersistenciaAdapter {
             Ubicacion ubi = new Ubicacion();
             ubi.setIdUbicacion(ubiDoc.getObjectId("_id").toHexString());
             ubi.setNombre(ubiDoc.getString("nombre"));
-            //ubi.setTipo(TipoUbicacionP.valueOf(ubiDoc.getString("tipoUbicacion")));
-            String tipoUbiStr = ubiDoc.getString("tipoUbicacion");
-            if (tipoUbiStr == null) {
-                tipoUbiStr = ubiDoc.getString("tipo");
-            }
-            TipoUbicacionP tipoUbicacion = null;
-            if (tipoUbiStr != null && !tipoUbiStr.trim().isEmpty()) {
-                try {
-                    tipoUbicacion = TipoUbicacionP.valueOf(tipoUbiStr.toUpperCase().trim());
-                } catch (IllegalArgumentException e) {
-                    System.err.println("El valor '" + tipoUbiStr + "' no coincide con TipoUbicacionP.");
-                }
-            }
-            ubi.setTipo(tipoUbicacion);
+            ubi.setTipo(TipoUbicacionP.valueOf(ubiDoc.getString("tipoUbicacion")));
             ubi.setCapacidad(ubiDoc.getInteger("capacidad"));
             ubi.setSecciones(SeccionPersistenciaAdapter.convertirDocsADominio(ubiDoc.getList("secciones", Document.class)));
             dominio.setUbicacion(ubi);

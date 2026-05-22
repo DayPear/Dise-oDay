@@ -1,7 +1,6 @@
 package Controlador.coordinador;
 
 import Controlador.interfaz.ICoordinadorAplicacion;
-import Exception.CambioAsientoException;
 import Pantallas.FrmInicioSesion;
 import Pantallas.FrmPago;
 import Pantallas.FrmPlantillaSistema;
@@ -13,8 +12,6 @@ import Pantallas.vistas.PnlConsultar;
 import Pantallas.vistas.PnlConsultarEvento;
 import Pantallas.vistas.PnlConsultarMenu;
 import Pantallas.vistas.PnlEventos;
-import com.mycompany.subsistemacambioasiento.CambioAsientoFachada;
-import com.mycompany.subsistemacambioasiento.ICambioAsiento;
 import dtos.AsientoDTO;
 import dtos.AsientoEventoDTO;
 import dtos.CategoriaDTO;
@@ -45,7 +42,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import objetosNegocio.ReservacionBO;
 
 /**
  * Clase que actúa como coordinador principal de la aplicación. Se encarga de
@@ -63,7 +59,6 @@ public class CoordinadorAplicacion implements ICoordinadorAplicacion {
     private final ICompraBoleto controlCompra = new CompraBoletoFachada();
     private final IFachadaGestionEvento controlEvento = new GestionEventoFachada();
     private final IGestionUsuariosFachada controlUsuarios = new GestionUsuarioFachada();
-    private final ICambioAsiento contolCambio = new CambioAsientoFachada();
 
     private FrmInicioSesion frmInicioSesion;
     private FrmRegistrarse frmRegistrarse;
@@ -72,7 +67,6 @@ public class CoordinadorAplicacion implements ICoordinadorAplicacion {
     private FrmDetallesCompra frmDetalles;
     private FrmRegistroItson frmRegistro;
     private ReservacionDTO reservacionActual;
-    private final ReservacionBO reservacionBO = ReservacionBO.getInstance();
 
     /**
      * Oculta todas las ventanas instanciadas actualmente en el sistema. Es
@@ -276,33 +270,12 @@ public class CoordinadorAplicacion implements ICoordinadorAplicacion {
         }
     }
 
-    /**
-     *
-     * @param idReservacion
-     * @param idAsiento
-     * @return
-     */
-    @Override
-    public boolean cambiarAsiento(String idReservacion, String idAsiento){
-        try{
-            return contolCambio.cambiarAsiento(idReservacion, idAsiento);
-        } catch(CambioAsientoException e){
-            System.err.println(e.getMessage());
-            return false;
-        }
-    }
-    
-    @Override
-    public ReservacionDTO obtenerReservacionesPorId(String idReservacion){
-        return reservacionBO.obtenerReservacionPorId(idReservacion);
-    }
-    
     @Override
     public void cerrarSesion() {
         controlInicioSesion.cerrarSesion();
         this.mostrarInicioSesion();
     }
-    
+
     @Override
     public List<ReservacionDTO> consultarReservaciones(String idUsuario) {
         try {

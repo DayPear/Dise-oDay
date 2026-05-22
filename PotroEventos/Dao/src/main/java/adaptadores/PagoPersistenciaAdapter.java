@@ -43,14 +43,7 @@ public class PagoPersistenciaAdapter {
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime());
         }
-        //entidad.setImporte(mongo.getDouble("importe"));
-        Number importeNum = mongo.get("importe", Number.class);
-        if (importeNum != null) {
-            entidad.setImporte(importeNum.doubleValue());
-        } else {
-            entidad.setImporte(0.0); // O el valor por defecto que prefieras si es null
-        }
-
+        entidad.setImporte(mongo.getDouble("importe"));
         entidad.setMetodoPago(mongo.getString("metodoPago"));
 
         return entidad;

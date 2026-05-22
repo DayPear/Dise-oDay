@@ -48,11 +48,6 @@
             <artifactId>SubsistemaInicioSesion</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>SubsistemaCambioAsiento</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <properties>
