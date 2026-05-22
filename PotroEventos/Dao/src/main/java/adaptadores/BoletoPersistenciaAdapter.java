@@ -84,18 +84,18 @@ public class BoletoPersistenciaAdapter {
             dominio.setEvento(EventoPersistenciaAdapter.convertirADominio(evento));
         }
 
-//        Document asiento = (Document) mongo.get("asiento");
-//        if (asiento != null) {
-//            Asiento a = new Asiento();
-//            a.setFila(asiento.getString("fila"));
-//            a.setNumero(asiento.getInteger("numero"));
-//
-//            AsientoEvento ae = new AsientoEvento();
-//            ae.setIdAsientoEvento(asiento.getObjectId("idAsientoEvento").toHexString());
-//            ae.setAsiento(a);
-//
-//            dominio.setAsiento(ae);
-//        }
+        Document asiento = (Document) mongo.get("asiento");
+        if (asiento != null) {
+            Asiento a = new Asiento();
+            a.setFila(asiento.getString("fila"));
+            a.setNumero(asiento.getInteger("numero"));
+
+            AsientoEvento ae = new AsientoEvento();
+            ae.setIdAsientoEvento(asiento.getObjectId("idAsientoEvento").toHexString());
+            ae.setAsiento(a);
+
+            dominio.setAsiento(ae);
+        }
 
         return dominio;
     }

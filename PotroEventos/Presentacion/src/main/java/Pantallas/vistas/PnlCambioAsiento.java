@@ -7,20 +7,14 @@ package Pantallas.vistas;
 import Controlador.interfaz.ICoordinadorAplicacion;
 import dtos.AsientoDTO;
 import dtos.AsientoEventoDTO;
-import dtos.BoletoDTO;
-import dtos.ENUMS.EstadoBoletoDTO;
-import dtos.ENUMS.ReservacionEstadoDTO;
-import dtos.ENUMS.TipoEventoN;
 import dtos.EventoDTO;
 import dtos.ReservacionDTO;
 import dtos.SeccionDTO;
 import java.awt.Image;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import utilerias.BotonUtileria;
@@ -51,16 +45,12 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
      * Constructor del panel de consulta de evento.
      *
      * @param coordinador Interfaz para la comunicación y navegación.
-     * @param evento El evento que se va a consultar.
+     * @param reservacion la reservacion que se va a consultar.
      */
     public PnlCambioAsiento(ICoordinadorAplicacion coordinador, ReservacionDTO reservacion) {
         this.coordinador = coordinador;
         this.evento = reservacion.getBoleto().getEvento();
         this.reservacion = reservacion;
-
-        java.awt.EventQueue.invokeLater(() -> {
-            validarUsuarioITSON();
-        });
 
         initComponents();
 
@@ -79,44 +69,23 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
 
     }
 
-    private void validarUsuarioITSON() {
-        if (evento.getTipoEvento() == TipoEventoN.ITSON) {
-            if (!coordinador.isUsuarioITSONRegistrado()) {
-                coordinador.mostarRegistroITSON();
-            }
-        }
-    }
-
     public void modoPantalla() {
         if (evento.isGratuito()) {
             lblTuSeccion.setText("Tu Boleto");
-            lblPrecio.setText("");
-            txtTotal.setText("Total: GRATIS");
-            lblSecc.setText("");
-            lblSeccion.setText("");
-            jLabel10.setText("");
-            lblFila.setText("");
-            jLabel12.setText("");
-            lblAsiento.setText("");
-            jLabel14.setText("");
             btnCambioAsiento.setText("Adquirir Boleto");
             PnlEstadio.setVisible(true);
-            jSeparator1.setVisible(false);
-            jSeparator2.setVisible(false);
-            jSeparator3.setVisible(false);
-            jSeparator4.setVisible(false);
+//            jSeparator1.setVisible(false);
+//            jSeparator2.setVisible(false);
+//            jSeparator3.setVisible(false);
+//            jSeparator4.setVisible(false);
         } else {
             lblTuSeccion.setText("Tu Sección");
-            lblSecc.setText("Sección");
-            jLabel10.setText("Fila");
-            jLabel12.setText("Numero Asiento");
-            jLabel14.setText("Precio Unitario");
-            btnCambioAsiento.setText("Comprar Boleto");
+            btnCambioAsiento.setText("CambiarAsiento");
             PnlEstadio.setVisible(true);
-            jSeparator1.setVisible(true);
-            jSeparator2.setVisible(true);
-            jSeparator3.setVisible(true);
-            jSeparator4.setVisible(true);
+//            jSeparator1.setVisible(true);
+//            jSeparator2.setVisible(true);
+//            jSeparator3.setVisible(true);
+//            jSeparator4.setVisible(true);
         }
     }
 
@@ -176,14 +145,8 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
             lblSeccion.setText("-");
             lblFila.setText("-");
             lblAsiento.setText("-");
-            lblPrecio.setText("$0.00");
-            txtTotal.setText("Total: $0.00");
-            totalCompra = 0L;
             return;
         }
-
-        // Calcular total general
-        totalCompra = calcularTotalCompra(secciones);
 
         // Caso: un solo asiento
         if (asientosEventos.size() == 1) {
@@ -193,14 +156,12 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
             lblSeccion.setText(seccion.getNombre());
             lblFila.setText(asiento.getFila());
             lblAsiento.setText(String.valueOf(asiento.getNumero()));
-            lblPrecio.setText(String.format("$%.2f", (double) seccion.getPrecioBase()));
         } else {
 
             // Caso: múltiples asientos
             StringBuilder textoSecciones = new StringBuilder("<html>");
             StringBuilder textoFilas = new StringBuilder("<html>");
             StringBuilder textoAsientos = new StringBuilder("<html>");
-            StringBuilder textoPrecios = new StringBuilder("<html>");
 
             for (int i = 0; i < asientosEventos.size(); i++) {
                 SeccionDTO seccion = secciones.get(i);
@@ -210,43 +171,18 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
                     textoSecciones.append(seccion.getNombre()).append("<br>");
                     textoFilas.append(asiento.getFila()).append("<br>");
                     textoAsientos.append(asiento.getNumero()).append("<br>");
-                    textoPrecios.append(
-                            String.format("$%.2f", (double) seccion.getPrecioBase())
-                    ).append("<br>");
                 }
             }
 
             textoSecciones.append("</html>");
             textoFilas.append("</html>");
             textoAsientos.append("</html>");
-            textoPrecios.append("</html>");
 
             lblSeccion.setText(textoSecciones.toString());
             lblFila.setText(textoFilas.toString());
             lblAsiento.setText(textoAsientos.toString());
-            lblPrecio.setText(textoPrecios.toString());
         }
 
-        txtTotal.setText(String.format("Total: $%.2f", (double) totalCompra));
-    }
-
-    /**
-     * Calcula el total de la compra sumando el precio base de cada sección
-     * seleccionada.
-     *
-     * @param secciones Lista de secciones seleccionadas.
-     * @return Total acumulado de la compra.
-     */
-    private Long calcularTotalCompra(List<SeccionDTO> secciones) {
-        Long total = 0L;
-
-        for (SeccionDTO seccion : secciones) {
-            if (seccion != null) {
-                total += seccion.getPrecioBase();
-            }
-        }
-
-        return total;
     }
 
     public void cargarDatos() {
@@ -256,8 +192,24 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
 
         if (reservacion.getBoleto() != null && reservacion.getBoleto().getAsiento() != null) {
             AsientoEventoDTO asientoActual = reservacion.getBoleto().getAsiento();
+            SeccionDTO seccionActual = reservacion.getBoleto().getAsiento().getAsiento().getSeccion();
+            AsientoDTO asientoInfoActual = reservacion.getBoleto().getAsiento().getAsiento();
+
+            lblSeccionActual.setText(
+                    seccionActual != null ? seccionActual.toString() : "-"
+            );
+
+            lblFilaActual.setText(
+                    asientoInfoActual != null ? asientoInfoActual.getFila() : "-"
+            );
+
+            lblAsientoActl.setText(
+                    asientoInfoActual != null
+                            ? String.valueOf(asientoActual.getAsiento().getNumero())
+                            : "-"
+            );
         }
-        
+
         if (evento.getUrlImagen() != null && !evento.getUrlImagen().isEmpty()) {
 
             String rutaLimpia = evento.getUrlImagen().replace("/src/main/resources", "");
@@ -323,10 +275,18 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         lblAsiento = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
-        jLabel14 = new javax.swing.JLabel();
-        lblPrecio = new javax.swing.JLabel();
-        txtTotal = new javax.swing.JTextField();
         btnCambioAsiento = new javax.swing.JButton();
+        jSeparator5 = new javax.swing.JSeparator();
+        jSeparator6 = new javax.swing.JSeparator();
+        jSeparator7 = new javax.swing.JSeparator();
+        jSeparator8 = new javax.swing.JSeparator();
+        lblSecc1 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lblAsientoActl = new javax.swing.JLabel();
+        lblFilaActual = new javax.swing.JLabel();
+        lblSeccionActual = new javax.swing.JLabel();
+        lblAsientoActual = new javax.swing.JLabel();
         PnlEstadio = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtInfo = new javax.swing.JTextPane();
@@ -392,20 +352,6 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
         lblAsiento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAsiento.setText("asientos");
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel14.setText("Precio Unitario");
-
-        lblPrecio.setText("precio");
-
-        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        txtTotal.setText("Total: $");
-        txtTotal.setEnabled(false);
-        txtTotal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotalActionPerformed(evt);
-            }
-        });
-
         btnCambioAsiento.setBackground(new java.awt.Color(31, 92, 204));
         btnCambioAsiento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnCambioAsiento.setForeground(new java.awt.Color(255, 255, 255));
@@ -419,10 +365,42 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
             }
         });
 
+        jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        lblSecc1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSecc1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSecc1.setText("Sección");
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Fila");
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Numero Asiento");
+
+        lblAsientoActl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAsientoActl.setText("asientos");
+
+        lblFilaActual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFilaActual.setText("fila");
+
+        lblSeccionActual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSeccionActual.setText("seccion");
+
+        lblAsientoActual.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblAsientoActual.setText("Asiento actual");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTuSeccion)
+                .addGap(104, 104, 104))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -430,7 +408,7 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator4)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(0, 7, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -451,20 +429,35 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
                                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCambioAsiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtTotal))
+                        .addComponent(btnCambioAsiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addComponent(jSeparator8)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(lblPrecio))
-                        .addContainerGap(182, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTuSeccion)
-                .addGap(104, 104, 104))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblSeccionActual, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblSecc1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblFilaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel13)
+                                    .addComponent(lblAsientoActl, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblAsientoActual)
+                                .addGap(81, 81, 81)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,14 +489,34 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
+                .addComponent(lblAsientoActual)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSecc1)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblSeccionActual)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblFilaActual)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jSeparator6)
+                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblAsientoActl)))
                 .addGap(18, 18, 18)
-                .addComponent(lblPrecio)
-                .addGap(43, 43, 43)
-                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addComponent(btnCambioAsiento)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         PnlEstadio.setBackground(new java.awt.Color(255, 255, 255));
@@ -595,10 +608,6 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotalActionPerformed
-
     private void btnVolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseClicked
         // TODO add your handling code here:
         coordinador.mostrarInicio();
@@ -621,11 +630,11 @@ public class PnlCambioAsiento extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Solo puede cambiar un asiento a la vez.");
             return;
         }
-        
+
         AsientoEventoDTO asientoActual = reservacion.getBoleto().getAsiento();
         AsientoEventoDTO asientoNuevo = asientosSeleccionados.get(0);
 
-if (asientoActual != null && asientoActual.getIdAsientoEvento().equals(asientoNuevo.getIdAsientoEvento())) {
+        if (asientoActual != null && asientoActual.getIdAsientoEvento().equals(asientoNuevo.getIdAsientoEvento())) {
             JOptionPane.showMessageDialog(this, "El asiento seleccionado es el mismo que ya tienes.");
             return;
         }
@@ -637,6 +646,10 @@ if (asientoActual != null && asientoActual.getIdAsientoEvento().equals(asientoNu
         }
 
         try {
+            System.out.println("idReservacion: " + reservacion.getIdReservacion());
+            System.out.println("idAsientoNuevo: " + reservacion.getBoleto().getAsiento().getIdAsientoEvento());
+            System.out.println("asientoActual: " + (reservacion.getBoleto().getAsiento() != null
+                    ? reservacion.getBoleto().getAsiento().getIdAsientoEvento() : "NULL"));
             boolean exito = coordinador.cambioAsiento(reservacion, asientoNuevo);
 
             if (exito) {
@@ -653,7 +666,7 @@ if (asientoActual != null && asientoActual.getIdAsientoEvento().equals(asientoNu
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Seguro de volver? Esto eliminará el proceso de compra actual.");
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Seguro de volver? Esto eliminará el proceso de cambio actual.");
         if (opcion == JOptionPane.OK_OPTION) {
             coordinador.mostrarInicio();
         }
@@ -666,8 +679,9 @@ if (asientoActual != null && asientoActual.getIdAsientoEvento().equals(asientoNu
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel iconEvento;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
@@ -675,16 +689,23 @@ if (asientoActual != null && asientoActual.getIdAsientoEvento().equals(asientoNu
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
     private javax.swing.JLabel lblAsiento;
+    private javax.swing.JLabel lblAsientoActl;
+    private javax.swing.JLabel lblAsientoActual;
     private javax.swing.JLabel lblFechaHora;
     private javax.swing.JLabel lblFila;
+    private javax.swing.JLabel lblFilaActual;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblPrecio;
     private javax.swing.JLabel lblSecc;
+    private javax.swing.JLabel lblSecc1;
     private javax.swing.JLabel lblSeccion;
+    private javax.swing.JLabel lblSeccionActual;
     private javax.swing.JLabel lblTuSeccion;
     private javax.swing.JLabel lblUbicacion;
     private javax.swing.JTextPane txtInfo;
-    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

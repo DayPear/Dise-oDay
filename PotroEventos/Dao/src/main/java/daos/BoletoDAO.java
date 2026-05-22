@@ -6,6 +6,8 @@ package daos;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
@@ -13,13 +15,16 @@ import conexion.ConexionMongo;
 import entidadesmongo.BoletoMongoEntidad;
 import excepciones.PersistenciaException;
 import interfaces.IBoletoDAO;
+import java.util.Arrays;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
  *
  * @author Dayanara Peralta G
  */
-public class BoletoDAO implements IBoletoDAO{
+public class BoletoDAO implements IBoletoDAO {
+
     private static BoletoDAO instancia;
     private final MongoCollection<BoletoMongoEntidad> coleccionBoletos;
 
@@ -36,8 +41,10 @@ public class BoletoDAO implements IBoletoDAO{
 
     /**
      * Metodo que actualiza en asiento de una reservacion
-     * @param idReservacion la reservacion a la que se desea actualizar el asiento
-     * @param idAsientoNuevo el asiento nuevo a actualizar en la reservacion 
+     *
+     * @param idReservacion la reservacion a la que se desea actualizar el
+     * asiento
+     * @param idAsientoNuevo el asiento nuevo a actualizar en la reservacion
      * @throws PersistenciaException
      */
     @Override
@@ -50,17 +57,65 @@ public class BoletoDAO implements IBoletoDAO{
                 throw new PersistenciaException("El ID del nuevo asiento no puede ser nulo");
             }
 
-            UpdateResult resultado = coleccionBoletos.updateOne(
+            MongoCollection<Document> coleccionAsientosEvento = ConexionMongo
+                    .obtenerBaseDatos()
+                    .getCollection("asientoEventos");
+
+            Document asientoEventoDoc = coleccionAsientosEvento
+                    .aggregate(Arrays.asList(
+                            Aggregates.match(Filters.eq("_id", new ObjectId(idAsientoNuevo))),
+                            Aggregates.lookup("asientos", "asiento", "_id", "asiento_doc"),
+                            Aggregates.unwind("$asiento_doc"),
+                            Aggregates.lookup("ubicaciones", "asiento_doc.ubicacion", "_id", "ubicacion_temp"),
+                            Aggregates.unwind("$ubicacion_temp"),
+                            Aggregates.addFields(
+                                    new Field<>("asiento_doc.seccion",
+                                            new Document("$arrayElemAt", Arrays.asList(
+                                                    new Document("$filter",
+                                                            new Document("input", "$ubicacion_temp.secciones")
+                                                                    .append("as", "s")
+                                                                    .append("cond", new Document("$eq",
+                                                                            Arrays.asList("$$s._id", "$asiento_doc.seccion")))
+                                                    ),
+                                                    0
+                                            ))
+                                    )
+                            )
+                    ))
+                    .first();
+
+            if (asientoEventoDoc == null) {
+                throw new PersistenciaException("No se encontró el nuevo asiento");
+            }
+
+            Document asientoDoc = (Document) asientoEventoDoc.get("asiento_doc");
+            Document seccionDoc = (Document) asientoDoc.get("seccion");
+
+            Document nuevoAsiento = new Document()
+                    .append("idAsientoEvento", new ObjectId(idAsientoNuevo))
+                    .append("idComoTexto", idAsientoNuevo)
+                    .append("fila", asientoDoc.getString("fila"))
+                    .append("numero", asientoDoc.getInteger("numero"))
+                    .append("nombreSeccion", seccionDoc != null ? seccionDoc.getString("nombre") : "");
+
+            MongoCollection<Document> coleccionReservaciones = ConexionMongo
+                    .obtenerBaseDatos()
+                    .getCollection("reservaciones");
+
+            UpdateResult resultado = coleccionReservaciones.updateOne(
                     Filters.eq("_id", new ObjectId(idReservacion)),
-                    Updates.set("boleto.asiento", new ObjectId(idAsientoNuevo))
+                    Updates.set("boleto.asiento", nuevoAsiento)
             );
 
             if (resultado.getMatchedCount() == 0) {
-                throw new PersistenciaException("No se encontró el asiento");
+                throw new PersistenciaException("No se encontró la reservación");
             }
+            if (resultado.getModifiedCount() == 0) {
+                throw new PersistenciaException("No se modificó ningún documento");
+            }
+
         } catch (MongoException e) {
-            System.err.println("Error interno de Mongo: " + e.getMessage());
-            throw new PersistenciaException("Error al actualizar el asiento del boleto: " + e.getMessage());
+            throw new PersistenciaException("Error al actualizar el asiento: " + e.getMessage());
         }
     }
 }
