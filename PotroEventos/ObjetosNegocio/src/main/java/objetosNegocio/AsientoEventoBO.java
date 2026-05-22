@@ -80,19 +80,6 @@ public class AsientoEventoBO implements IAsientoEventoBO {
             throw new NegocioException("No fue posible liberar el asiento");
         }
     }
-    
-    @Override
-    public boolean ocuparAsiento(String idAsientoNuevo) throws NegocioException{
-        if (idAsientoNuevo == null) {
-            throw new NegocioException("ID de asientoEvento no válido.");
-        }
-
-        try {
-            return asientoEventoDAO.ocuparAsiento(idAsientoNuevo);
-        } catch (PersistenciaException e) {
-            throw new NegocioException("No fue posible liberar el asiento");
-        }
-    }
 
     @Override
     public boolean venderAsiento(String idAsiento) throws NegocioException {
@@ -104,15 +91,6 @@ public class AsientoEventoBO implements IAsientoEventoBO {
             return asientoEventoDAO.venderAsiento(idAsiento);
         } catch (PersistenciaException e) {
             throw new NegocioException("No fue posible liberar el asiento");
-        }
-    }
-    
-    @Override
-    public boolean validarDisponibilidadAsiento(String idAsientoEvento) throws NegocioException{
-        try{
-            return asientoEventoDAO.validarDisponibilidad(idAsientoEvento);
-        }catch(PersistenciaException e){
-            throw new NegocioException("No fue posible validar la disponibilidad de el asiento");
         }
     }
 }

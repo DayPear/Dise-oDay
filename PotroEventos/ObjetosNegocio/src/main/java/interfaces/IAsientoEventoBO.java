@@ -20,9 +20,5 @@ public interface IAsientoEventoBO {
 
     boolean liberarAsiento(String idAsiento) throws NegocioException;
 
-    boolean ocuparAsiento(String idAsientoNuevo) throws NegocioException;
-    
     boolean venderAsiento(String idAsiento) throws NegocioException;
-    
-    boolean validarDisponibilidadAsiento(String idAsientoEvento) throws NegocioException;
 }
