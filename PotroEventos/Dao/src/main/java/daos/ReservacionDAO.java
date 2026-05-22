@@ -149,34 +149,34 @@ public class ReservacionDAO implements IReservacionDAO {
     @Override
     public Reservacion obtenerPorId(String idReservacion) {
         try {
-//            Document reservacion = coleccionReservaciones
-//                    .withDocumentClass(Document.class)
-//                    .find(Filters.eq("_id", new ObjectId(idReservacion)))
-//                    .first();
-
             Document reservacion = coleccionReservaciones
                     .withDocumentClass(Document.class)
-                    .aggregate(Arrays.asList(
-                            Aggregates.match(Filters.eq("_id", new ObjectId(idReservacion))),
-                            Aggregates.lookup("usuarios", "usuario._id", "_id", "usuario"),
-                            Aggregates.unwind("$usuario", new UnwindOptions().preserveNullAndEmptyArrays(true)),
-                            Aggregates.lookup("eventos", "boleto.evento._id", "_id", "evento_temp"),
-                            Aggregates.unwind("$evento_temp", new UnwindOptions().preserveNullAndEmptyArrays(true)),
-                            Aggregates.addFields(new Field<>("boleto.evento", "$evento_temp")),
-                            Aggregates.project(Projections.exclude("evento_temp")),
-                            Aggregates.lookup("ubicaciones", "boleto.evento.ubicacion._id", "_id", "ubicacion_temp"),
-                            Aggregates.unwind("$ubicacion_temp", new UnwindOptions().preserveNullAndEmptyArrays(true)),
-                            Aggregates.addFields(new Field<>("boleto.evento.ubicacion", "$ubicacion_temp")),
-                            Aggregates.project(Projections.exclude("ubicacion_temp")),
-                            Aggregates.lookup("asientos_eventos", "boleto.asiento._id", "_id", "asiento_temp"),
-                            Aggregates.unwind("$asiento_temp", new UnwindOptions().preserveNullAndEmptyArrays(true)),
-                            Aggregates.addFields(new Field<>("boleto.asiento", "$asiento_temp")),
-                            Aggregates.project(Projections.exclude("asiento_temp")),
-                            Aggregates.lookup("asientos", "boleto.asiento.asiento", "_id", "asiento_info"),
-                            Aggregates.unwind("$asiento_info", new UnwindOptions().preserveNullAndEmptyArrays(true)),
-                            Aggregates.addFields(new Field<>("boleto.asiento.asiento", "$asiento_info")),
-                            Aggregates.project(Projections.exclude("asiento_info"))
-                    )).first();
+                    .find(Filters.eq("_id", new ObjectId(idReservacion)))
+                    .first();
+
+//            Document reservacion = coleccionReservaciones
+//                    .withDocumentClass(Document.class)
+//                    .aggregate(Arrays.asList(
+//                            Aggregates.match(Filters.eq("_id", new ObjectId(idReservacion))),
+//                            Aggregates.lookup("usuarios", "usuario._id", "_id", "usuario"),
+//                            Aggregates.unwind("$usuario", new UnwindOptions().preserveNullAndEmptyArrays(true)),
+//                            Aggregates.lookup("eventos", "boleto.evento._id", "_id", "evento_temp"),
+//                            Aggregates.unwind("$evento_temp", new UnwindOptions().preserveNullAndEmptyArrays(true)),
+//                            Aggregates.addFields(new Field<>("boleto.evento", "$evento_temp")),
+//                            Aggregates.project(Projections.exclude("evento_temp")),
+//                            Aggregates.lookup("ubicaciones", "boleto.evento.ubicacion._id", "_id", "ubicacion_temp"),
+//                            Aggregates.unwind("$ubicacion_temp", new UnwindOptions().preserveNullAndEmptyArrays(true)),
+//                            Aggregates.addFields(new Field<>("boleto.evento.ubicacion", "$ubicacion_temp")),
+//                            Aggregates.project(Projections.exclude("ubicacion_temp")),
+//                            Aggregates.lookup("asientos_eventos", "boleto.asiento._id", "_id", "asiento_temp"),
+//                            Aggregates.unwind("$asiento_temp", new UnwindOptions().preserveNullAndEmptyArrays(true)),
+//                            Aggregates.addFields(new Field<>("boleto.asiento", "$asiento_temp")),
+//                            Aggregates.project(Projections.exclude("asiento_temp")),
+//                            Aggregates.lookup("asientos", "boleto.asiento.asiento", "_id", "asiento_info"),
+//                            Aggregates.unwind("$asiento_info", new UnwindOptions().preserveNullAndEmptyArrays(true)),
+//                            Aggregates.addFields(new Field<>("boleto.asiento.asiento", "$asiento_info")),
+//                            Aggregates.project(Projections.exclude("asiento_info"))
+//                    )).first();
             if (reservacion == null) {
                 return null;
             }
